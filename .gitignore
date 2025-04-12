@@ -172,3 +172,11 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+checkpoints/
+
+# Checkpoint files
+*.pt
+*.pth
+*.pt.gz
+*.pth.gz
