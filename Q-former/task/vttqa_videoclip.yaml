@@ -1,0 +1,14 @@
+includes: projects/task/vttqa.yaml
+model:
+  model_cls: MMFusionSeparate
+  mm_encoder_cls: 
+  video_encoder_cls: MMBertForEncoder
+  text_encoder_cls: BertModel
+  num_hidden_video_layers: 6
+
+  encoder_projector: qformer
+  qformer_layers: 6
+  query_len: 64
+
+#   model_cls: MMFusionShare
+#   mm_encoder_cls: MMBertForEncoder
