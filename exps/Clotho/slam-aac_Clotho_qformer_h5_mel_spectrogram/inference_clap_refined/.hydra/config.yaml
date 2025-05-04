@@ -1,0 +1,36 @@
+dataset_config:
+  prompt: Describe the audio you hear.
+  encoder_projector_ds_rate: 5
+  encoder_dim: 64
+  dataset: h5_audio_dataset
+  file: examples/slam_aac/utils/h5_dataset.py:get_h5_audio_dataset
+  h5_val_file_path: /gpfs/scratch/cl6707/Shared/clotho/clotho_evaluation.h5
+  feature_type: mel_spectrogram
+  val_data_path: /gpfs/scratch/cl6707/Shared/clotho/clotho_evaluation.h5
+  inference_mode: true
+  fixed_length: true
+  target_length: 1024
+model_config:
+  llm_name: vicuna-7b-v1.5
+  llm_path: lmsys/vicuna-7b-v1.5
+  llm_dim: 4096
+  encoder_name: none
+  encoder_path: none
+  encoder_dim: 64
+  encoder_projector: q-former
+  encoder_projector_ds_rate: 5
+  num_beams: 4
+train_config:
+  model_name: aac
+  batching_strategy: custom
+  num_epochs: 1
+  val_batch_size: 4
+  num_workers_dataloader: 0
+  output_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_mel_spectrogram/inference_clap_refined
+  freeze_encoder: true
+  freeze_llm: true
+  use_peft: false
+ckpt_path: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_mel_spectrogram/model.pt
+decode_log: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_mel_spectrogram/inference_clap_refined/decode_beam4
+log_config:
+  log_file: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_mel_spectrogram/inference_clap_refined/inference.log

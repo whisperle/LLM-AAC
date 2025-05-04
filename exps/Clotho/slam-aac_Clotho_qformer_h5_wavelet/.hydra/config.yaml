@@ -1,0 +1,58 @@
+dataset_config:
+  prompt: Describe_the_audio
+  encoder_projector_ds_rate: 5
+  dataset: h5_audio_dataset
+  file: examples/slam_aac/utils/h5_dataset.py:get_h5_audio_dataset
+  h5_file_path: /gpfs/scratch/cl6707/Shared/clotho/clotho_development.h5
+  h5_val_file_path: /gpfs/scratch/cl6707/Shared/clotho/clotho_validation.h5
+  feature_type: cwt
+  cwt_wavelet: morl
+  encoder_dim: 64
+  fixed_length: true
+  target_length: 1024
+model_config:
+  llm_name: vicuna-7b-v1.5
+  llm_path: lmsys/vicuna-7b-v1.5
+  llm_dim: 4096
+  encoder_name: none
+  encoder_ds_rate: 2
+  encoder_projector_ds_rate: 5
+  encoder_path: none
+  encoder_dim: 64
+  encoder_projector: q-former
+  encoder_projector_num_queries: 32
+  encoder_projector_num_layers: 2
+  encoder_projector_hidden_dim: 768
+  encoder_projector_num_heads: 12
+  qformer_layers: 2
+  query_tokens: 32
+  qformer_hidden_dim: 768
+  qformer_heads: 12
+  encoder_fairseq_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/fairseq/EAT
+train_config:
+  model_name: aac
+  freeze_llm: true
+  batching_strategy: custom
+  warmup_steps: 500
+  total_steps: 20000
+  lr: 0.0001
+  validation_interval: 500
+  batch_size_training: 4
+  val_batch_size: 4
+  num_workers_dataloader: 4
+  use_fp16: false
+  output_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet
+  seed: 10086
+  use_peft: false
+  enable_fsdp: false
+  enable_ddp: false
+  one_gpu: true
+  quantization: false
+log_config:
+  log_file: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet/train.log
+  wandb_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet
+  wandb_entity_name: cl6707
+  wandb_project_name: slam-llm
+  wandb_exp_name: slam-aac_Clotho_qformer_h5_wavelet
+  use_wandb: true
+metric: acc

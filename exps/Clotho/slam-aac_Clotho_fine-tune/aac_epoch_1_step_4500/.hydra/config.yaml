@@ -1,0 +1,40 @@
+dataset_config:
+  prompt: Describe the audio you hear.
+  encoder_projector_ds_rate: 5
+  dataset: audio_dataset
+  val_data_path: /gpfs/scratch/cl6707/Shared/clotho/clotho/evaluation_single.jsonl
+  fbank_mean: -4.268
+  fbank_std: 4.569
+  model_name: eat
+  inference_mode: true
+  normalize: true
+  input_type: mel
+  fixed_length: true
+  target_length: 1024
+model_config:
+  llm_name: vicuna-7b-v1.5
+  llm_path: lmsys/vicuna-7b-v1.5
+  llm_dim: 4096
+  encoder_name: eat
+  encoder_path: /gpfs/scratch/cl6707/Shared/models/EAT-base_epoch30_ft.pt
+  encoder_dim: 768
+  encoder_projector: linear
+  encoder_projector_ds_rate: 5
+  normalize: true
+  encoder_fairseq_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/fairseq/EAT
+  num_beams: 3
+train_config:
+  model_name: aac
+  batching_strategy: custom
+  num_epochs: 1
+  val_batch_size: 4
+  num_workers_dataloader: 0
+  output_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_fine-tune/aac_epoch_1_step_4500
+  freeze_encoder: true
+  freeze_llm: false
+  use_peft: true
+ckpt_path: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_fine-tune/aac_epoch_1_step_4500/model.pt
+peft_ckpt: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_fine-tune/aac_epoch_1_step_4500
+decode_log: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_fine-tune/aac_epoch_1_step_4500/decode_beam3
+log_config:
+  log_file: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_fine-tune/aac_epoch_1_step_4500/inference.log

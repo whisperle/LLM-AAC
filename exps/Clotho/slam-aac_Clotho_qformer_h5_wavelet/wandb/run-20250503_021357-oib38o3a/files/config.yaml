@@ -1,0 +1,48 @@
+_wandb:
+    value:
+        cli_version: 0.19.10
+        m: []
+        python_version: 3.9.21
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 49
+                - 50
+                - 53
+                - 55
+                - 71
+                - 98
+            "2":
+                - 1
+                - 5
+                - 11
+                - 49
+                - 50
+                - 53
+                - 55
+                - 71
+                - 98
+            "3":
+                - 13
+                - 16
+                - 23
+                - 55
+            "4": 3.9.21
+            "5": 0.19.10
+            "6": 4.35.2
+            "8":
+                - 5
+            "12": 0.19.10
+            "13": linux-x86_64
+dataset_config:
+    value: '{''dataset'': ''h5_audio_dataset'', ''file'': ''examples/slam_aac/utils/h5_dataset.py:get_h5_audio_dataset'', ''train_data_path'': None, ''val_data_path'': None, ''h5_file_path'': ''/gpfs/scratch/cl6707/Shared/clotho/clotho_development.h5'', ''h5_val_file_path'': ''/gpfs/scratch/cl6707/Shared/clotho/clotho_validation.h5'', ''feature_type'': ''cwt'', ''train_split'': ''train'', ''test_split'': ''validation'', ''prompt'': ''Describe_the_audio'', ''data_path'': None, ''max_words'': None, ''max_mel'': None, ''fix_length_audio'': -1, ''inference_mode'': False, ''model_name'': ''eat'', ''fbank_mean'': -4.268, ''fbank_std'': 4.569, ''target_length'': 1024, ''fixed_length'': True, ''random_crop'': False, ''encoder_projector_ds_rate'': 5, ''input_type'': ''raw'', ''mel_size'': 80, ''normalize'': False}'
+fsdp_config:
+    value: '{''mixed_precision'': True, ''use_fp16'': False, ''sharding_strategy'': <ShardingStrategy.NO_SHARD: 3>, ''checkpoint_type'': ''SHARDED_STATE_DICT'', ''fsdp_activation_checkpointing'': True, ''fsdp_cpu_offload'': False, ''pure_bf16'': False, ''optimizer'': ''AdamW''}'
+log_config:
+    value: '{''use_wandb'': True, ''wandb_dir'': ''/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet'', ''wandb_entity_name'': ''cl6707'', ''wandb_project_name'': ''slam-llm'', ''wandb_exp_name'': ''slam-aac_Clotho_qformer_h5_wavelet'', ''log_file'': ''/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet/train.log'', ''log_interval'': 5}'
+model_config:
+    value: '{''file'': ''examples/slam_aac/model/slam_model_aac.py:model_factory'', ''llm_name'': ''vicuna-7b-v1.5'', ''llm_path'': ''lmsys/vicuna-7b-v1.5'', ''llm_type'': ''decoder_only'', ''llm_dim'': 4096, ''encoder_name'': ''none'', ''encoder_ds_rate'': 2, ''encoder_path'': ''none'', ''encoder_dim'': 64, ''encoder_projector'': ''q-former'', ''encoder_projector_ds_rate'': 5, ''encoder_projector_num_queries'': 32, ''encoder_projector_num_layers'': 2, ''encoder_projector_hidden_dim'': 768, ''encoder_projector_num_heads'': 12, ''qformer_layers'': 2, ''query_tokens'': 32, ''qformer_hidden_dim'': 768, ''qformer_heads'': 12, ''encoder_fairseq_dir'': ''/gpfs/scratch/cl6707/Projects/LLM-AAC/fairseq/EAT'', ''modal'': ''audio'', ''normalize'': False, ''do_sample'': False, ''top_p'': 1.0, ''temperature'': 1.0, ''num_beams'': 4, ''num_return_sequences'': 1, ''length_penalty'': 1.0, ''repetition_penalty'': 1.0, ''max_new_tokens'': 200, ''min_length'': 1}'
+train_config:
+    value: '{''model_name'': ''aac'', ''enable_ddp'': False, ''enable_deepspeed'': False, ''enable_fsdp'': False, ''low_cpu_fsdp'': False, ''run_validation'': True, ''batch_size_training'': 4, ''batching_strategy'': ''custom'', ''context_length'': 4096, ''gradient_accumulation_steps'': 1, ''num_epochs'': 3, ''num_workers_dataloader'': 4, ''warmup_steps'': 500, ''total_steps'': 20000, ''validation_interval'': 500, ''lr'': 0.0001, ''weight_decay'': 0.0, ''gamma'': 0.85, ''seed'': 10086, ''use_fp16'': False, ''mixed_precision'': True, ''val_batch_size'': 4, ''use_peft'': False, ''peft_config'': {''peft_method'': ''lora'', ''r'': 8, ''lora_alpha'': 32, ''target_modules'': [''q_proj'', ''v_proj''], ''bias'': ''none'', ''task_type'': ''CAUSAL_LM'', ''lora_dropout'': 0.05, ''inference_mode'': False}, ''output_dir'': ''/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet'', ''freeze_layers'': False, ''num_freeze_layers'': 1, ''quantization'': False, ''one_gpu'': True, ''save_model'': True, ''dist_checkpoint_root_folder'': ''PATH/to/save/FSDP/model'', ''dist_checkpoint_folder'': ''fine-tuned'', ''save_optimizer'': False, ''use_fast_kernels'': False, ''run_test_during_validation'': False, ''run_test_during_validation_file'': ''test.wav'', ''run_test_during_validation_prompt'': ''<|ASR|>'', ''freeze_llm'': True, ''freeze_encoder'': False, ''specaug'': False, ''noise_aug'': False}'

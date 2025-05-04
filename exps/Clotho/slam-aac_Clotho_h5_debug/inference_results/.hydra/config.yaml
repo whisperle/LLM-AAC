@@ -1,0 +1,37 @@
+dataset_config:
+  prompt: Describe the audio you hear.
+  encoder_projector_ds_rate: 5
+  feature_type: mel_spectrogram
+  fixed_length: true
+  target_length: 1024
+  encoder_dim: 768
+  inference_mode: true
+  h5_val_file_path: /gpfs/scratch/cl6707/Shared/clotho/clotho_evaluation.h5
+model_config:
+  llm_name: vicuna-7b-v1.5
+  llm_path: lmsys/vicuna-7b-v1.5
+  llm_dim: 4096
+  encoder_name: eat
+  encoder_path: /gpfs/scratch/cl6707/Shared/models/EAT-base_epoch30_ft.pt
+  encoder_dim: 768
+  encoder_projector: linear
+  encoder_projector_ds_rate: 5
+  encoder_fairseq_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/fairseq/EAT
+  num_beams: 2
+train_config:
+  model_name: aac
+  batching_strategy: custom
+  val_batch_size: 4
+  num_workers_dataloader: 4
+  output_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_h5_debug
+  freeze_encoder: true
+  freeze_llm: false
+  use_peft: true
+ckpt_path: /gpfs/scratch/cl6707/Projects/LLM-AAC/aac_model_fixed/model.pt
+peft_ckpt: /gpfs/scratch/cl6707/Projects/LLM-AAC/aac_model_fixed
+decode_log: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_h5_debug/inference_results/decode_beam2
+log_config:
+  log_file: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_h5_debug/inference_results/inference_beam2.log
+skip_loading_ckpt: true
+use_h5_dataset: true
+use_feature_dataset: false

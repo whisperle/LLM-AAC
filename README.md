@@ -44,30 +44,7 @@ The script will:
 2. Run EAT pre-training using the prepared features
 3. Save checkpoints to `/scratch/cl6707/Projects/LLM-AAC/checkpoints/eat_audioset_cwt_precomputed`
 
-## Implementation Details
+## Conclusion
 
-### Changes Made
-1. **Feature Pre-computation System**:
-   - Added `precompute_wavelets.py` script for batch computation of CWT features
-   - Features are stored in HDF5 format with normalization statistics
-
-2. **New Dataset Class**: 
-   - Implemented `PrecomputedCWTAudioDataset` for efficient loading of pre-computed features
-   - Falls back to on-the-fly computation if features aren't available
-
-3. **Training Infrastructure**:
-   - Updated `MaeImageDataset` to handle different feature types
-   - Modified task config in `pretraining_AS2M.py` with new parameters
-   - Created optimized training script for pre-computed features
-
-4. **Integration with HuggingFace**:
-   - Added support for loading AudioSet directly from HuggingFace
-
-## TODO
-
-- ~Pretrain the EAT with Wavelet Features~ ✓
-- Replace the Linear Projector with a Q-former projector
-  - TBD
-- Finetune the LLM with LORA
-  - TBD
+TBD
 

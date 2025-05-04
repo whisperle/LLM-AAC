@@ -1,0 +1,52 @@
+dataset_config:
+  prompt: Describe_the_audio
+  encoder_projector_ds_rate: 5
+  encoder_dim: 64
+  dataset: feature_audio_dataset
+  file: examples/slam_aac/utils/feature_dataset.py:get_feature_audio_dataset
+  data_path: /gpfs/scratch/cl6707/Shared/clotho/clotho_dataset
+  feature_type: mel_spectrogram
+  fixed_length: true
+  fix_length_audio: 480000
+  target_length: 1024
+  mel_size: 64
+model_config:
+  llm_name: vicuna-7b-v1.5
+  llm_path: lmsys/vicuna-7b-v1.5
+  llm_dim: 4096
+  encoder_name: none
+  encoder_ds_rate: 2
+  encoder_projector_ds_rate: 5
+  encoder_path: none
+  encoder_dim: 64
+  encoder_projector: linear
+  encoder_projector_num_layers: 2
+  encoder_projector_hidden_dim: 1024
+  encoder_projector_dropout: 0.2
+train_config:
+  model_name: aac
+  freeze_llm: true
+  batching_strategy: custom
+  warmup_steps: 500
+  total_steps: 20000
+  lr: 0.0005
+  validation_interval: 500
+  batch_size_training: 4
+  val_batch_size: 4
+  num_workers_dataloader: 4
+  use_fp16: false
+  output_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_melspec_wav
+  seed: 10086
+  use_peft: false
+  enable_fsdp: false
+  enable_ddp: false
+  one_gpu: true
+  quantization: false
+log_config:
+  log_file: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_melspec_wav/train.log
+  wandb_dir: /gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_melspec_wav
+  wandb_entity_name: cl6707
+  wandb_project_name: slam-llm
+  wandb_exp_name: slam-aac_Clotho_mlp_melspec_wav
+  use_wandb: true
+metric: acc
