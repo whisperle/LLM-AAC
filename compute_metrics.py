@@ -1,7 +1,7 @@
 import nltk
 # Use nltk's meteor_score, which accepts raw strings
 from nltk.translate.meteor_score import meteor_score
-from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from rouge import Rouge
 import numpy as np
 from collections import Counter
@@ -104,20 +104,35 @@ def compute_fense(reference, candidate):
     except:
         return 0.0
 
+def compute_bleu(reference, candidate):
+    try:
+        smooth_fn = SmoothingFunction().method1
+        return sentence_bleu([tokenize(reference)], tokenize(candidate), weights=(0.25, 0.25, 0.25, 0.25), smoothing_function=smooth_fn)
+    except:
+        return 0.0
+
+def compute_rouge_l(reference, candidate):
+    rouge = Rouge()
+    try:
+        scores = rouge.get_scores(candidate, reference)[0]
+        return scores['rouge-l']['f']
+    except:
+        return 0.0
+
 def main():
     # Download required NLTK data
     nltk.download('punkt')
     nltk.download('wordnet')
     
     # Read files
-    gt_path = '/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_melspec_wav/inference_clap_refined/decode_beam2_gt'
-    pred_path = '/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_melspec_wav/inference_clap_refined/decode_beam2_pred'
+    # gt_path = '/scratch/cc6946/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_melspec_wav/inference_clap_refined/decode_beam2_gt'
+    # pred_path = '/scratch/cc6946/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_melspec_wav/inference_clap_refined/decode_beam2_pred'
     
-    # gt_path = '/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet/inference_clap_refined/decode_beam2_gt'
-    # pred_path = '/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet/inference_clap_refined/decode_beam2_pred'
+    # gt_path = '/scratch/cc6946/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet/inference_clap_refined/decode_beam2_gt'
+    # pred_path = '/scratch/cc6946/LLM-AAC/exps/Clotho/slam-aac_Clotho_qformer_h5_wavelet/inference_clap_refined/decode_beam2_pred'
     
-    # gt_path = '/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_h5_cwt/inference_clap_refined/decode_beam2_gt'
-    # pred_path = '/gpfs/scratch/cl6707/Projects/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_h5_cwt/inference_clap_refined/decode_beam2-2_pred'
+    gt_path = '/scratch/cc6946/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_h5_cwt/inference_clap_refined/decode_beam2_gt'
+    pred_path = '/scratch/cc6946/LLM-AAC/exps/Clotho/slam-aac_Clotho_mlp_h5_cwt/inference_clap_refined/decode_beam2-2_pred'
     
     with open(gt_path, 'r') as f:
         references = [line.strip().split('\t')[1] for line in f if line.strip()]
@@ -132,6 +147,8 @@ def main():
     spider_scores = []
     spider_fl_scores = []
     fense_scores = []
+    bleu_scores = []
+    rouge_l_scores = []
     
     # Compute metrics for each pair
     for ref, cand in zip(references, candidates):
@@ -148,6 +165,8 @@ def main():
             spider_scores.append(compute_spider(ref, cand))
             spider_fl_scores.append(compute_spider_fl(ref, cand))
             fense_scores.append(compute_fense(ref, cand))
+            bleu_scores.append(compute_bleu(ref, cand))
+            rouge_l_scores.append(compute_rouge_l(ref, cand))
         except Exception as e:
             print(f"Error processing pair: {e}")
             continue
@@ -160,6 +179,8 @@ def main():
     print(f"SPIDEr: {np.mean(spider_scores) * 100:.2f}")
     print(f"SPIDEr-FL: {np.mean(spider_fl_scores) * 100:.2f}")
     print(f"FENSE: {np.mean(fense_scores) * 100:.2f}")
+    print(f"BLEU: {np.mean(bleu_scores) * 100:.2f}")
+    print(f"ROUGE-L (F1): {np.mean(rouge_l_scores) * 100:.2f}")
     print("Note: CIDEr, SPICE, and FENSE are placeholders. Use official implementations for publication-quality results.")
 
 if __name__ == "__main__":
