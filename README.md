@@ -1,10 +1,10 @@
 # LLM-AAC
 
+**Team Members: Nika Emami, Chuyang Chen, Chenqian Le**
+
 This is a repository for the LLM Automated Audio Captioning project.
 
 Automated Audio Captioning (AAC) involves generating descriptive textual captions from audio inputs.
-
-Team Members: Nika Emami, Chuyang Chen, Chenqian Le
 
 # Basic Pipeline
 
