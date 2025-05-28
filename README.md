@@ -9,11 +9,20 @@ Team Members: Nika Emami, Chuyang Chen, Chenqian Le
 - Audio --> Audio Feature --> Projector--> LLM (Vicuna) --> Caption --> CLAP --> Score --> Final Caption
 - [TO BE UPDATED with pipeline figure]
 # Dataset
-- **Clotho**
+- **Clotho v2:** a curated audio dataset designed for audio captioning tasks.
+  
+  4981 audio clips, 15-30s each, 44.1 kHz, mono
+  
+  5 captions per audio file, 8-20 word length
 
-## Feature Pre-computation (Recommended)
+## Feature Pre-computation
 Pre-computing CWT features significantly speeds up training, saved to h5 file with `generate_h5.py` and `generate_h5_eval.py` .
 
+- Input: Raw waveform
+
+- Transform: Morlet wavelet, 128 log-spaced scales
+
+- Output: Time-frequency matrix of wavelet coefficients
 
 ## Training with Pre-computed Features
 Bash files are saved in `/gpfs/scratch/cl6707/Projects/LLM-AAC/LLM-AAC/SLAM-LLM/examples/slam_aac/scripts`
@@ -29,7 +38,7 @@ The script will:
 Evaluation is done with `compute_metrics.py`
 
 ## Results
-
+Blank predictions are excluded from metric computation:
 
 | Method | METEOR | CIDEr | SPIDEr | SPIDEr-FL | FENSE |
 |--------|---------|--------|---------|------------|--------|
@@ -40,5 +49,13 @@ Evaluation is done with `compute_metrics.py`
 
 ## Conclusion
 
-TBD
+- The CWT + Q-Former setup shows the strongest results when the model generates valid captions.
+
+- Mel-Spectrogram + MLP performs the worst, highlighting the limits of shallow projections.
+
+- Q-Former struggles when outputs include blanks or decoding errors — it’s more sensitive to failure cases.
+
+- CWT features are expressive, but can be noisy or overly compressed after pooling.
+
+- The Mel + MLP combo is simpler, but more stable across all samples.
 
