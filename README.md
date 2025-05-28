@@ -7,7 +7,10 @@ Team Members: Nika Emami, Chuyang Chen, Chenqian Le
 # Basic Pipeline
 
 - Audio --> Audio Feature --> Projector--> LLM (Vicuna) --> Caption --> CLAP --> Score --> Final Caption
-- [TO BE UPDATED with pipeline figure]
+<p align="center">
+  <img src="1.png" width="300"/>
+</p>
+
 # Dataset
 - **Clotho v2:** a curated audio dataset designed for audio captioning tasks.
   
